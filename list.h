@@ -27,18 +27,16 @@ public:
 	
 	/*以下为各种查找排序方法*/
 
-	int binarySearch1(const listEntry &target, int &position);//此方法用于数据量较大时
-		//表里的元素为非递减排列，在表结构里的bottom和top两个索引之间查找元素target
-	int binarySearch2(const listEntry &target, int &position);//此方法用于数据量较小时
-		//表里的元素为非递减排列，在表结构里的bottom和top两个索引之间查找元素target
+	int binarySearch1(const listEntry &target, int &position);//二分查找（此方法用于数据量较大时）
+	int binarySearch2(const listEntry &target, int &position);//二分查找（此方法用于数据量较小时）
 	int hash_insert(const listEntry &x, int &position);		//哈希插入
 	int hash_find(const listEntry &x, int &position);		//哈希查找
-	void insertionSort();							//插入排序
-	void shellSort();	//希尔排序					
-	void selectionSort();//选择排序
-	void bubbleSort();//冒泡排序
-	void mergeSort();//归并排序
-	void quickSort(int low, int high);//快速排序
+	void insertionSort();			//插入排序
+	void shellSort();			//希尔排序					
+	void selectionSort();			//选择排序
+	void bubbleSort();			//冒泡排序
+	void mergeSort();			//归并排序
+	void quickSort(int low, int high);	//快速排序
 protected:
 	int count;
 	listEntry data[maxlist];		//使用数组来存放数据元素
@@ -62,7 +60,7 @@ bool list::empty() const			//判断表是否为空
 	return (count == 0);
 }
 
-void list::clear()					//清空表
+void list::clear()				//清空表
 {
 	for (int i = 0; i <= count - 1; i++)
 		data[i] = 0;
@@ -90,7 +88,7 @@ int list::retrieve(int position, listEntry &x) const//取出表位置position上
 	return success;
 }
 
-int list::remove(int position)//删除表位置position上的元素
+int list::remove(int position)			//删除表位置position上的元素
 {
 	if (empty())
 		return underflow;
@@ -129,7 +127,7 @@ list::~list(void)
 }
 
 int list::binarySearch1(const listEntry &target, int &position)//此方法用于数据量较大时
-															   //表里的元素为非递减排列，在表结构里的bottom和top两个索引之间查找元素target
+								 //表里的元素为非递减排列，在表结构里的bottom和top两个索引之间查找元素target
 {
 	int top = count;
 	int bottom = 0;
@@ -162,7 +160,7 @@ int list::binarySearch1(const listEntry &target, int &position)//此方法用于
 }
 
 int list::binarySearch2(const listEntry &target, int &position)//此方法用于数据量较小时
-															   //表里的元素为非递减排列，在表结构里的bottom和top两个索引之间查找元素target
+								//表里的元素为非递减排列，在表结构里的bottom和top两个索引之间查找元素target
 {
 	int top = count;
 	int bottom = 0;
@@ -174,11 +172,11 @@ int list::binarySearch2(const listEntry &target, int &position)//此方法用于
 			position = mid + 1;
 			return success;
 		}
-		else if (data[mid]<target)		//中间点元素小于目标元素，将查找范围缩小到右边半个表
+		else if (data[mid]<target)	//中间点元素小于目标元素，将查找范围缩小到右边半个表
 		{
 			bottom = mid + 1;
 		}
-		else							//中间点元素大于等于目标元素，将查找范围缩小到左边半个表
+		else				//中间点元素大于等于目标元素，将查找范围缩小到左边半个表
 		{
 			top = mid - 1;
 		}
@@ -189,7 +187,7 @@ int list::binarySearch2(const listEntry &target, int &position)//此方法用于
 int list::hash_insert(const listEntry &x, int &position)		//哈希插入
 {
 	int i = x % maxlist;//很简单的求模运算，如果数据量大的话，需要将求模的值进行适当调整
-						//必要的时候可以使用二次求模来避免碰撞
+			    //必要的时候可以使用二次求模来避免碰撞
 	if (data[i] == 0)
 	{
 		data[i] = x;
@@ -216,28 +214,28 @@ int list::hash_find(const listEntry &x, int &position)			//哈希查找
 	}
 }
 
-void list::insertionSort()								//插入排序
+void list::insertionSort()						//插入排序
 {
 	listEntry key;
 	int i, j;
-	for (j = 1; j < count; j++)							//表头元素看做事已排序部分，其他元素为未排序部分
+	for (j = 1; j < count; j++)	//表头元素看做事已排序部分，其他元素为未排序部分
 	{
-		key = data[j];									//获取未排序部分的第一个元素，作为待排序元素
+		key = data[j];		//获取未排序部分的第一个元素，作为待排序元素
 		i = j - 1;
-		while (i >= 0 && data[i] > key)					//找出待排序元素的插入位置
+		while (i >= 0 && data[i] > key)		//找出待排序元素的插入位置
 		{
 			data[i + 1] = data[i];
 			i = i - 1;
 		}
-		data[i + 1] = key;								//插入待排序元素
+		data[i + 1] = key;			//插入待排序元素
 	}
 }
 
 
 void list::shellSort()
 {
-	int increment;										//记录增量的变量
-	int start;											//记录每次插入排序的起始元素位置
+	int increment;					//记录增量的变量
+	int start;					//记录每次插入排序的起始元素位置
 	increment = count;
 	for (increment = increment / 3; increment > 0; increment = increment / 3)
 	{
