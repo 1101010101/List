@@ -1,5 +1,6 @@
 # List
-/**/
+
+
 #include<stdio.h>
 const int maxlist = 100;     //表的最大尺寸
 const int success = 0;
